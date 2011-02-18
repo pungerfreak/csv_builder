@@ -1,7 +1,7 @@
 class TransliteratingFilter
   # Transliterate into the required encoding if necessary
   # TODO: make defaults configurable
-  def initialize(faster_csv, input_encoding = 'UTF-8', output_encoding = 'LATIN1')
+  def initialize(faster_csv, input_encoding, output_encoding)
     @faster_csv = faster_csv
 
     # TODO: do some checking to make sure iconv works correctly in
