@@ -24,6 +24,11 @@ module ActionView # :nodoc:
     # These default to 'UTF-8' and 'LATIN1' respectively. e.g.
     #
     #   @output_encoding = 'UTF-8'
+    #
+    # You can set <tt>@csv_options</tt> instance variable to define options for
+    # FasterCSV generator. For example:
+    #
+    #   @csv_options = { :force_quotes => true, :col_sep => ';' }
     class CsvBuilder < TemplateHandler
       include Compilable
 
@@ -40,7 +45,7 @@ module ActionView # :nodoc:
             controller.response.headers['Content-Disposition'] = "attachment; filename=\#{@filename}"
           end
 
-          FasterCSV.generate do |faster_csv|
+          FasterCSV.generate(@csv_options || {}) do |faster_csv|
             csv = TransliteratingFilter.new(faster_csv,  @input_encoding || 'UTF-8', @output_encoding || 'LATIN1')
             #{template.source}
           end
